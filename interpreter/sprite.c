@@ -8,8 +8,8 @@ static int lua_qg_texture_load(lua_State* L) {
     QGTexture_t* texture = lua_newuserdata(L,sizeof(QGTexture_t));
 
     const char* filename = luaL_checkstring(L, 1);
-    bool flip  = luaL_checkint(L, 2);
-    bool vram = luaL_checkint(L, 3);
+    bool flip  = luaL_checknumber(L, 2);
+    bool vram = luaL_checknumber(L, 3);
 
     *texture = QuickGame_Texture_Load(filename, flip, vram);
 
@@ -105,10 +105,10 @@ static int lua_qg_sprite_create(lua_State* L) {
 
     QGSprite_t* sprite = lua_newuserdata(L,sizeof(QGSprite_t));
 
-    int x = luaL_checkint(L, 1);
-    int y = luaL_checkint(L, 2);
-    int w = luaL_checkint(L, 3);
-    int h = luaL_checkint(L, 4);
+    int x = luaL_checknumber(L, 1);
+    int y = luaL_checknumber(L, 2);
+    int w = luaL_checknumber(L, 3);
+    int h = luaL_checknumber(L, 4);
 
     QGTexture_t tex = *getTexn(L,5);
 
@@ -168,8 +168,8 @@ static int lua_qg_sprite_set_position(lua_State* L) {
         return luaL_error(L, "Error: Sprite:set_position() takes 3 arguments.");
 
     QGSprite_t sprite1 = *getSpriten(L,1);
-    int x = luaL_checkint(L, 2);
-    int y = luaL_checkint(L, 3);
+    int x = luaL_checknumber(L, 2);
+    int y = luaL_checknumber(L, 3);
 
     sprite1->transform.position.x = x;
     sprite1->transform.position.y = y;
@@ -182,8 +182,8 @@ static int lua_qg_sprite_set_scale(lua_State* L) {
         return luaL_error(L, "Error: Sprite:set_scale() takes 3 arguments.");
 
     QGSprite_t sprite1 = *getSpriten(L,1);
-    int w = luaL_checkint(L, 2);
-    int h = luaL_checkint(L, 3);
+    int w = luaL_checknumber(L, 2);
+    int h = luaL_checknumber(L, 3);
 
     sprite1->transform.scale.x = w;
     sprite1->transform.scale.y = h;
@@ -210,7 +210,7 @@ static int lua_qg_sprite_set_layer(lua_State* L) {
         return luaL_error(L, "Error: Sprite:set_layer() takes 2 arguments.");
 
     QGSprite_t sprite1 = *getSpriten(L,1);
-    int layer = luaL_checkint(L, 2);
+    int layer = luaL_checknumber(L, 2);
 
     sprite1->layer = layer;
 
@@ -224,7 +224,7 @@ static int lua_qg_sprite_set_color(lua_State* L) {
         return luaL_error(L, "Error: Sprite:set_color() takes 2 arguments.");
 
     QGSprite_t sprite1 = *getSpriten(L,1);
-    int color = luaL_checkint(L, 2);
+    int color = luaL_checknumber(L, 2);
 
     sprite1->color.color = color;
 
@@ -285,11 +285,11 @@ static int lua_qg_tilemap_create(lua_State* L) {
 
     QGTilemap_t* tmap = lua_newuserdata(L,sizeof(QGTilemap_t));
 
-    int x = luaL_checkint(L, 1);
-    int y = luaL_checkint(L, 2);
+    int x = luaL_checknumber(L, 1);
+    int y = luaL_checknumber(L, 2);
     QGTexture_t tex = *getTexn(L,3);
-    int w = luaL_checkint(L, 4);
-    int h = luaL_checkint(L, 5);
+    int w = luaL_checknumber(L, 4);
+    int h = luaL_checknumber(L, 5);
 
     QGVector2 size = {
         .x = w,
@@ -365,8 +365,8 @@ static int lua_qg_tilemap_draw_string(lua_State* L) {
         return luaL_error(L, "Error: Tilemap:draw_string() takes 4 arguments.");
 
     QGTilemap_t tilemap = *getTilemap(L);
-    int x = luaL_checkint(L, 2);
-    int y = luaL_checkint(L, 3);
+    int x = luaL_checknumber(L, 2);
+    int y = luaL_checknumber(L, 3);
     const char* str = luaL_checkstring(L, 4);
 
     QGVector2 pos = {
@@ -386,14 +386,14 @@ static int lua_qg_tilemap_set_tile(lua_State* L) {
         return luaL_error(L, "Error: Tilemap:set_tile() takes 9 arguments.");
 
     QGTilemap_t tilemap = *getTilemap(L);
-    int idx = luaL_checkint(L, 2);
-    int x = luaL_checkint(L, 3);
-    int y = luaL_checkint(L, 4);
-    int w = luaL_checkint(L, 5);
-    int h = luaL_checkint(L, 6);
-    int aidx = luaL_checkint(L, 7);
-    int color = luaL_checkint(L, 8);
-    int collide = luaL_checkint(L, 9);
+    int idx = luaL_checknumber(L, 2);
+    int x = luaL_checknumber(L, 3);
+    int y = luaL_checknumber(L, 4);
+    int w = luaL_checknumber(L, 5);
+    int h = luaL_checknumber(L, 6);
+    int aidx = luaL_checknumber(L, 7);
+    int color = luaL_checknumber(L, 8);
+    int collide = luaL_checknumber(L, 9);
 
     QGTile t = {
         .position = {.x = x, .y = y},
@@ -414,8 +414,8 @@ static int lua_qg_tilemap_set_position(lua_State* L) {
         return luaL_error(L, "Error: Tilemap:set_position() takes 3 arguments.");
 
     QGTilemap_t tilemap = *getTilemap(L);
-    int x = luaL_checkint(L, 2);
-    int y = luaL_checkint(L, 3);
+    int x = luaL_checknumber(L, 2);
+    int y = luaL_checknumber(L, 3);
 
     tilemap->transform.position.x = x;
     tilemap->transform.position.y = y;
@@ -428,8 +428,8 @@ static int lua_qg_tilemap_set_scale(lua_State* L) {
         return luaL_error(L, "Error: Tilemap:set_scale() takes 3 arguments.");
 
     QGTilemap_t tilemap = *getTilemap(L);
-    int w = luaL_checkint(L, 2);
-    int h = luaL_checkint(L, 3);
+    int w = luaL_checknumber(L, 2);
+    int h = luaL_checknumber(L, 3);
 
     tilemap->transform.scale.x = w;
     tilemap->transform.scale.y = h;
