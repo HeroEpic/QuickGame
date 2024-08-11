@@ -1,5 +1,15 @@
 #include "graphics.h"
 
+int luaL_checkint(lua_State *L, int index) {
+    lua_Integer value = luaL_checkinteger(L, index);
+
+    if (value < INT_MIN || value > INT_MAX) {
+        luaL_error(L, "value out of range for int");
+    }
+    
+    return (int)value;
+}
+
 static int lua_qg_start_frame(lua_State* L) {
     int argc = lua_gettop(L);
     if (argc != 0)
@@ -25,7 +35,7 @@ static int lua_qg_set_clear_color(lua_State* L) {
     if (argc != 1)
         return luaL_error(L, "Error: Graphics.set_clear_color() takes 1 argument.");
 
-    int color = luaL_checknumber(L, 1);
+    int color = luaL_checkinteger(L, 1);
 
     QGColor col;
     col.color = color;
@@ -120,10 +130,10 @@ static int lua_qg_color_create(lua_State* L) {
     if (argc != 4)
         return luaL_error(L, "Error: Color.create() takes 4 arguments.");
 
-    int r = luaL_checknumber(L, 1);
-    int g = luaL_checknumber(L, 2);
-    int b = luaL_checknumber(L, 3);
-    int a = luaL_checknumber(L, 4);
+    int r = luaL_checkinteger(L, 1);
+    int g = luaL_checkinteger(L, 2);
+    int b = luaL_checkinteger(L, 3);
+    int a = luaL_checkinteger(L, 4);
 
     QGColor color;
     color.rgba.r = r;
@@ -178,7 +188,7 @@ static int lua_qg_draw_rectangle(lua_State* L) {
         float w = luaL_checknumber(L, 3);
         float h = luaL_checknumber(L, 4);
 
-        int color = luaL_checknumber(L, 5);
+        int color = luaL_checkinteger(L, 5);
         QGColor col;
         col.color = color;
 
@@ -194,7 +204,7 @@ static int lua_qg_draw_rectangle(lua_State* L) {
     } else if(argc == 2) {
         QGTransform2D transform = *getQGTransformn(L, 1);
 
-        int color = luaL_checknumber(L, 2);
+        int color = luaL_checkinteger(L, 2);
         QGColor col;
         col.color = color;
 
@@ -214,7 +224,7 @@ static int lua_qg_draw_triangle(lua_State* L) {
         float w = luaL_checknumber(L, 3);
         float h = luaL_checknumber(L, 4);
 
-        int color = luaL_checknumber(L, 5);
+        int color = luaL_checkinteger(L, 5);
         QGColor col;
         col.color = color;
 
@@ -230,7 +240,7 @@ static int lua_qg_draw_triangle(lua_State* L) {
     } else if(argc == 2) {
         QGTransform2D transform = *getQGTransformn(L, 1);
 
-        int color = luaL_checknumber(L, 2);
+        int color = luaL_checkinteger(L, 2);
         QGColor col;
         col.color = color;
 
@@ -250,7 +260,7 @@ static int lua_qg_draw_circle(lua_State* L) {
         float w = luaL_checknumber(L, 3);
         float h = luaL_checknumber(L, 4);
 
-        int color = luaL_checknumber(L, 5);
+        int color = luaL_checkinteger(L, 5);
         QGColor col;
         col.color = color;
 
@@ -266,7 +276,7 @@ static int lua_qg_draw_circle(lua_State* L) {
     } else if(argc == 2) {
         QGTransform2D transform = *getQGTransformn(L, 1);
 
-        int color = luaL_checknumber(L, 2);
+        int color = luaL_checkinteger(L, 2);
         QGColor col;
         col.color = color;
 
