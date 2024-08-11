@@ -1,15 +1,5 @@
 #include "graphics.h"
 
-int luaL_checkint(lua_State *L, int index) {
-    lua_Integer value = luaL_checkinteger(L, index);
-
-    if (value < INT_MIN || value > INT_MAX) {
-        luaL_error(L, "value out of range for int");
-    }
-    
-    return (int)value;
-}
-
 static int lua_qg_start_frame(lua_State* L) {
     int argc = lua_gettop(L);
     if (argc != 0)
