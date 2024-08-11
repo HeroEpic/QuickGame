@@ -1,5 +1,15 @@
 #include "audio.h"
 
+int luaL_checkint(lua_State *L, int index) {
+    lua_Integer value = luaL_checkinteger(L, index);
+
+    if (value < INT_MIN || value > INT_MAX) {
+        luaL_error(L, "value out of range for int");
+    }
+    
+    return (int)value;
+}
+
 static int lua_qg_audio_load(lua_State* L) {
     int argc = lua_gettop(L);
     if (argc != 3)
@@ -8,8 +18,8 @@ static int lua_qg_audio_load(lua_State* L) {
     QGAudioClip** audio = lua_newuserdata(L,sizeof(QGAudioClip*));
 
     const char* filename = luaL_checkstring(L, 1);
-    bool looping  = luaL_checknumber(L, 2);
-    bool streaming = luaL_checknumber(L, 3);
+    bool looping  = luaL_checkint(L, 2);
+    bool streaming = luaL_checkint(L, 3);
 
     *audio = QuickGame_Audio_Load(filename, looping, streaming);
 
@@ -74,7 +84,7 @@ static int lua_qg_audio_play(lua_State* L) {
         return luaL_error(L, "Error: AudioClip:play() takes 2 arguments.");
 
     QGAudioClip_t clip = *getClip(L);
-    int channel = luaL_checknumber(L, 2);
+    int channel = luaL_checkint(L, 2);
     QuickGame_Audio_Play(clip, channel);
 
     return 0;
